@@ -169,7 +169,37 @@ function to($location){
 }
 
 
+function is_image($type){
+    switch($type){
+        case "image/jpeg":
+        case "image/gif":
+        case "image/png":
+            return true;
+        break;
+        default:
+            return false;
+    }
+}
 
+function dummy_icon($type){
+    switch($type){
+        case "text/plain":
+            return "file-txt.png";
+        break;
+        case "application/mspowerpoint":
+        case "application/vnd.openxmlformats-officedocument.presentationml.pre":
+            return "file-ppt.png";
+        break;
+        case "application/msword":
+            return "file-doc.png";
+        break;
+        case "application/postscript":
+            return "file-ai.png";
+        break;
+        default:
+            return "file-regular.jpg";
+    }
+}
 
 
 ?>
