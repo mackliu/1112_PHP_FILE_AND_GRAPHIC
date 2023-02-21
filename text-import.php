@@ -12,8 +12,8 @@ include_once "./api/base.php";
 
 
     if(!empty($_FILES['doc']['tmp_name'])){
-        move_uploaded_file($_FILES['doc']['tmp_name'], './upload/'.$_FILES['doc']['name']);
-        $file='./upload/'.$_FILES['doc']['name'];
+        //move_uploaded_file($_FILES['doc']['tmp_name'], './upload/'.$_FILES['doc']['name']);
+        $file=$_FILES['doc']['tmp_name'];
     
         $resource=fopen($file,'r');
         $line=fgets($resource);
@@ -26,6 +26,8 @@ include_once "./api/base.php";
                                 'no'=>$cols[4],
                                 'birthday'=>$cols[3]]);
         }
+
+        unlink($_FILES['doc']['tmp_name']);
     }
 
 ?>
@@ -59,28 +61,32 @@ foreach($rows as $row){
 
 ?>
 
+<button onclick="location.href='?do=export'">匯出資料</button>
+
 <!--匯出資料-->
 <?php
-if(file_exists('export.csv')){
-    unlink('export.csv');
-}else{
-    $file=fopen('export.csv','w+');
-    $rows=all('students'," limit 5");
-    fwrite($file,"\xEF\xBB\xBF");
 
-    foreach($rows as $row){
-        $str=join(",",$row);
-        fwrite($file,$str);
-        fwrite($file,"\r\n");
+if(isset($_GET['do']) && $_GET['do']=='export'){
+    if(file_exists('export.csv')){
+        unlink('export.csv');
+    }else{
+        $file=fopen('export.csv','w+');
+        $rows=all('students'," limit 5");
+        fwrite($file,"\xEF\xBB\xBF");
+
+        foreach($rows as $row){
+            $str=join(",",$row);
+            fwrite($file,$str);
+            fwrite($file,"\r\n");
+        }
+
+        fclose($file);
+        echo "<a href='export.csv' download>檔案下載</a>";
+
     }
-
-    fclose($file);
-
 }
-
 ?>
 
-<a href='export.csv' download>檔案下載</a>
 
 </body>
 </html>
