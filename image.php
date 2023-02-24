@@ -42,22 +42,38 @@ if(file_exists('./upload/'.$_FILES['img']['name'])){
 <!----縮放圖形----->
 
 <?php
+$imageinfo=getimagesize("./upload/".$_FILES['img']['name']);
 $image=imagecreatefromjpeg("./upload/".$_FILES['img']['name']);
 $w=150;
 $h=150;
+
 $dst=imagecreatetruecolor($w,$h);
-$imageinfo=getimagesize("./upload/".$_FILES['img']['name']);
 /* echo "<pre>";
 print_r($imageinfo);
 echo "</pre>"; */
+
 imagecopyresampled($dst,$image,0,0,0,0,$w,$h,$imageinfo[0],$imageinfo[1]);
 imagejpeg($dst,'dst.jpg');
 ?>
 
 <img src="dst.jpg" alt="">;
 <!----圖形加邊框----->
+<?php
 
+$w=$imageinfo[0]+20;
+$h=$imageinfo[1]+20;
 
+$dst=imagecreatetruecolor($w,$h);
+$white=imagecolorallocate($dst,205,155,55);
+imagefill($dst,0,0,$white);
+/* echo "<pre>";
+print_r($imageinfo);
+echo "</pre>"; */
+
+imagecopyresampled($dst,$image,10,10,0,0,$imageinfo[0],$imageinfo[1],$imageinfo[0],$imageinfo[1]);
+imagejpeg($dst,'border.jpg');
+?>
+<img src="border.jpg" alt="">;
 <!----產生圖形驗證碼----->
 
 
