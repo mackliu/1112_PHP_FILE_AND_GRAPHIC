@@ -10,6 +10,11 @@
  * 5.輸出檔案
  */
 
+if(!empty($_FILES['img']['tmp_name'])){
+    move_uploaded_file($_FILES['img']['tmp_name'],'./upload/'.$_FILES['img']['name']);
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,12 +28,33 @@
 <body>
 <h1 class="header">圖形處理練習</h1>
 <!---建立檔案上傳機制--->
+<form action="?" method="post" enctype="multipart/form-data">
+    <input type="file" name="img" id="img">
+    <input type="submit" value="上傳">
+</form>
+<?php
+if(file_exists('./upload/'.$_FILES['img']['name'])){
+    echo "<img src='./upload/{$_FILES['img']['name']}'>";
+}
 
-
+?>
 
 <!----縮放圖形----->
 
+<?php
+$image=imagecreatefromjpeg("./upload/".$_FILES['img']['name']);
+$w=150;
+$h=150;
+$dst=imagecreatetruecolor($w,$h);
+$imageinfo=getimagesize("./upload/".$_FILES['img']['name']);
+/* echo "<pre>";
+print_r($imageinfo);
+echo "</pre>"; */
+imagecopyresampled($dst,$image,0,0,0,0,$w,$h,$imageinfo[0],$imageinfo[1]);
+imagejpeg($dst,'dst.jpg');
+?>
 
+<img src="dst.jpg" alt="">;
 <!----圖形加邊框----->
 
 
