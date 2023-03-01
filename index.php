@@ -12,6 +12,6 @@
 <a href="manage.php"><div class="types">檔案管理</div></a>
 <a href="text-import.php"><div class="types">文字檔案處理</div></a>
 <a href="image.php"><div class="types">圖形處理</div></a>
-<a href="cert.php"><div class="types">圖形驗證碼</div></a>
+<a href="cert.html"><div class="types">圖形驗證碼</div></a>
 </body>
 </html>
