@@ -16,6 +16,7 @@ include_once "./api/base.php";
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>檔案上傳</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <style>
         .list{
             list-style-type:none;
@@ -75,11 +76,26 @@ if(isset($_GET['upload']) && $_GET['upload']=='success'){
 <form action="./api/upload.php" method="post" enctype="multipart/form-data">
     <ul>
         <li>描述：<input type="text" name="description"></li>
-        <li>檔案：<input type="file" name="file_name"></li>
+        <li>檔案：<input type="file" name="file_name" id="upload" ></li>
         <li><input type="submit" value="上傳"></li>
+        <img src="" id="preview" style="width:250px">
+    
     </ul>
 </form>
+<script>
+let e=10
+$("input[type='file']").on("change",function(e){
+    let file=e.target.files[0]
+    let src=URL.createObjectURL(file);
+    console.log(src)
 
+    $("#preview").attr('src',src)
+
+})
+
+
+
+</script>
 <!----建立一個連結來查看上傳後的圖檔---->  
 <?php
 $files=all('upload');
